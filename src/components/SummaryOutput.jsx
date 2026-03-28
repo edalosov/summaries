@@ -61,7 +61,7 @@ export default function SummaryOutput({ summary, isLoading }) {
 }
 
 function renderWithQuotes(text) {
-  const parts = text.split(/«quote»|«\/quote»/);
+  const parts = text.split(/\[QUOTE\]|\[\/QUOTE\]/);
   // Odd-indexed parts are inside quote markers
   return parts.map((part, i) =>
     i % 2 === 1
@@ -74,8 +74,8 @@ function formatAsText(summary) {
   let text = `# ${summary.title}\n\n`;
   text += `## Key Themes\n${summary.key_themes.join(', ')}\n\n`;
   const body = summary.body
-    .replace(/«quote»/g, '"')
-    .replace(/«\/quote»/g, '"');
+    .replace(/\[QUOTE\]/g, '"')
+    .replace(/\[\/QUOTE\]/g, '"');
   text += `${body}\n\n`;
   text += `## Takeaways\n`;
   summary.takeaways.forEach((t, i) => {
