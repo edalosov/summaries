@@ -10,19 +10,17 @@ You MUST respond with valid JSON matching this exact schema, and nothing else:
 {
   "title": "<A concise descriptive title for the text>",
   "key_themes": ["<theme1>", "<theme2>", ...],
-  "detailed_summary": "<A thorough multi-paragraph summary that captures all essential information, arguments, evidence, and nuance. This should be as long as needed to be complete. Use \\n\\n to separate paragraphs.>",
-  "key_quotes": [
-    {"quote": "<exact verbatim quote from the text>", "context": "<one sentence on why this quote matters>"}
-  ],
+  "body": "<A thorough multi-paragraph summary with key quotes embedded inline. Use \\n\\n to separate paragraphs.>",
   "takeaways": ["<takeaway1>", "<takeaway2>", ...]
 }
 
 Rules:
-1. The detailed_summary must retain ALL essential information. Err on the side of being too thorough rather than too brief.
-2. key_quotes must be EXACT verbatim excerpts from the input text. Target approximately 10% of the total text length in quotes. For a 1000-word text, include roughly 100 words of quotes spread across multiple selections.
-3. key_themes should contain 3-7 themes.
-4. takeaways should contain 3-7 actionable or notable conclusions.
-5. Respond ONLY with the JSON object. No markdown fencing, no preamble, no explanation."""
+1. VOICE: Write the body in the same voice, tone, and style as the original author. The summary should read as if the author is directly conveying the information to the reader. Do NOT write as a third-person analyst — never use phrases like "The author argues...", "The text discusses...", "This piece explores...". Instead, present the ideas directly, the way the original text does.
+2. QUOTES: Embed exact verbatim quotes from the original text naturally into the body using the markers «quote»exact words here«/quote». Weave them into the flow of the text like a well-written article would. Target approximately 10% of the total body length in quotes. For a 1000-word text, include roughly 100 words of quotes spread across multiple selections.
+3. COMPLETENESS: The body must retain ALL essential information. Err on the side of being too thorough rather than too brief. A longer, complete summary is always preferred.
+4. key_themes should contain 3-7 themes.
+5. takeaways should contain 3-7 actionable or notable conclusions.
+6. Respond ONLY with the JSON object. No markdown fencing, no preamble, no explanation."""
 
 
 class handler(BaseHTTPRequestHandler):
@@ -81,7 +79,7 @@ Summarize the above text following the system instructions exactly."""
 
         summary = json.loads(raw)
 
-        required_keys = {"title", "key_themes", "detailed_summary", "key_quotes", "takeaways"}
+        required_keys = {"title", "key_themes", "body", "takeaways"}
         missing = required_keys - set(summary.keys())
         if missing:
             raise ValueError(f"Summary missing required keys: {missing}")

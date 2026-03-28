@@ -41,22 +41,9 @@ export default function SummaryOutput({ summary, isLoading }) {
       </section>
 
       <section className="summary-section">
-        <h3>Detailed Summary</h3>
-        <div className="detailed-summary">
-          {summary.detailed_summary.split('\n\n').map((para, i) => (
-            <p key={i}>{para}</p>
-          ))}
-        </div>
-      </section>
-
-      <section className="summary-section">
-        <h3>Key Quotes</h3>
-        <div className="quotes">
-          {summary.key_quotes.map((q, i) => (
-            <blockquote key={i} className="quote-block">
-              <p className="quote-text">"{q.quote}"</p>
-              <cite className="quote-context">{q.context}</cite>
-            </blockquote>
+        <div className="body-content">
+          {summary.body.split('\n\n').map((para, i) => (
+            <p key={i}>{renderWithQuotes(para)}</p>
           ))}
         </div>
       </section>
@@ -73,14 +60,23 @@ export default function SummaryOutput({ summary, isLoading }) {
   );
 }
 
+function renderWithQuotes(text) {
+  const parts = text.split(/«quote»|«\/quote»/);
+  // Odd-indexed parts are inside quote markers
+  return parts.map((part, i) =>
+    i % 2 === 1
+      ? <span key={i} className="inline-quote">"{part}"</span>
+      : part
+  );
+}
+
 function formatAsText(summary) {
   let text = `# ${summary.title}\n\n`;
   text += `## Key Themes\n${summary.key_themes.join(', ')}\n\n`;
-  text += `## Detailed Summary\n${summary.detailed_summary}\n\n`;
-  text += `## Key Quotes\n`;
-  summary.key_quotes.forEach((q) => {
-    text += `> "${q.quote}"\n  — ${q.context}\n\n`;
-  });
+  const body = summary.body
+    .replace(/«quote»/g, '"')
+    .replace(/«\/quote»/g, '"');
+  text += `${body}\n\n`;
   text += `## Takeaways\n`;
   summary.takeaways.forEach((t, i) => {
     text += `${i + 1}. ${t}\n`;

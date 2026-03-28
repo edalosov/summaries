@@ -289,33 +289,20 @@
   font-weight: 500;
 }
 
-/* Detailed summary */
-.detailed-summary p {
+/* Body content */
+.body-content p {
   margin-bottom: 0.75rem;
   font-size: 0.95rem;
   line-height: 1.7;
 }
 
-/* Quotes */
-.quote-block {
-  border-left: 3px solid #6366f1;
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  background: #fafafa;
-  border-radius: 0 8px 8px 0;
-}
-
-.quote-text {
+/* Inline quotes */
+.inline-quote {
   font-style: italic;
-  font-size: 0.95rem;
-  color: #333;
-  margin-bottom: 0.3rem;
-}
-
-.quote-context {
-  font-size: 0.8rem;
-  color: #888;
-  font-style: normal;
+  color: #4338ca;
+  background: #eef2ff;
+  padding: 0.05rem 0.3rem;
+  border-radius: 3px;
 }
 
 /* Takeaways */
