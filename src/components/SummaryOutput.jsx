@@ -32,15 +32,6 @@ export default function SummaryOutput({ summary, isLoading }) {
       </div>
 
       <section className="summary-section">
-        <h3>Key Themes</h3>
-        <div className="themes">
-          {summary.key_themes.map((theme, i) => (
-            <span key={i} className="theme-pill">{theme}</span>
-          ))}
-        </div>
-      </section>
-
-      <section className="summary-section">
         <div className="body-content">
           {summary.body.split('\n\n').map((para, i) => (
             <p key={i}>{renderWithQuotes(para)}</p>
@@ -73,7 +64,6 @@ function renderWithQuotes(text) {
 
 function formatAsText(summary) {
   let text = `# ${summary.title}\n\n`;
-  text += `## Key Themes\n${summary.key_themes.join(', ')}\n\n`;
   const body = summary.body
     .replace(/\[QUOTE\]/g, '"')
     .replace(/\[\/QUOTE\]/g, '"');

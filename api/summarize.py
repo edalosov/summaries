@@ -9,7 +9,6 @@ You MUST respond with valid JSON matching this exact schema, and nothing else:
 
 {
   "title": "<A concise descriptive title for the text>",
-  "key_themes": ["<theme1>", "<theme2>", ...],
   "body": "<A thorough multi-paragraph summary with key quotes embedded inline. Use \\n\\n to separate paragraphs.>",
   "takeaways": ["<takeaway1>", "<takeaway2>", ...]
 }
@@ -18,8 +17,7 @@ Rules:
 1. VOICE: Write the body in the same voice, tone, and style as the original author. The summary should read as if the author is directly conveying the information to the reader. Do NOT write as a third-person analyst — never use phrases like "The author argues...", "The text discusses...", "This piece explores...". Instead, present the ideas directly, the way the original text does.
 2. QUOTES: Embed exact verbatim quotes from the original text naturally into the body using the markers [QUOTE]exact words here[/QUOTE]. You MUST use exactly these markers — [QUOTE] to open and [/QUOTE] to close. Do NOT use guillemets, angle brackets, or any other format. IMPORTANT: Any trailing punctuation (periods, commas, etc.) that follows a quote must go INSIDE the [/QUOTE] marker, not after it. For example: [QUOTE]exact words here.[/QUOTE] NOT [QUOTE]exact words here[/QUOTE]. Weave quotes into the flow of the text like a well-written article would. Target approximately 10% of the total body length in quotes. For a 1000-word text, include roughly 100 words of quotes spread across multiple selections.
 3. COMPLETENESS: The body must retain ALL essential information. Err on the side of being too thorough rather than too brief. A longer, complete summary is always preferred.
-4. key_themes should contain 3-7 themes.
-5. takeaways should contain 3-7 actionable or notable conclusions.
+4. takeaways should contain 3-7 actionable or notable conclusions.
 6. Respond ONLY with the JSON object. No markdown fencing, no preamble, no explanation."""
 
 
@@ -79,7 +77,7 @@ Summarize the above text following the system instructions exactly."""
 
         summary = json.loads(raw)
 
-        required_keys = {"title", "key_themes", "body", "takeaways"}
+        required_keys = {"title", "body", "takeaways"}
         missing = required_keys - set(summary.keys())
         if missing:
             raise ValueError(f"Summary missing required keys: {missing}")
