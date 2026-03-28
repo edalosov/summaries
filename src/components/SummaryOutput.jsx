@@ -63,10 +63,11 @@ export default function SummaryOutput({ summary, isLoading }) {
 function renderWithQuotes(text) {
   const parts = text.split(/\[QUOTE\]|\[\/QUOTE\]/);
   // Odd-indexed parts are inside quote markers
+  // Even-indexed parts (regular text) get leading stray punctuation trimmed
   return parts.map((part, i) =>
     i % 2 === 1
       ? <span key={i} className="inline-quote">"{part}"</span>
-      : part
+      : i > 0 ? part.replace(/^[.\s,;:]+/, '') : part
   );
 }
 
