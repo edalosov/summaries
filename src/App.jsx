@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import TextInput from './components/TextInput';
 import SummaryOutput from './components/SummaryOutput';
 import HistorySidebar from './components/HistorySidebar';
-import { summarizeText, getHistory, getHistoryItem, deleteHistoryItem } from './api';
+import { summarizeText } from './api';
+import { saveToHistory, getHistory, getHistoryItem, deleteHistoryItem } from './historyStore';
 import './App.css';
 
 export default function App() {
@@ -13,7 +14,7 @@ export default function App() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getHistory().then((data) => setHistory(data.summaries)).catch(() => {});
+    setHistory(getHistory());
   }, []);
 
   const handleSubmit = async (text, contentType) => {
@@ -24,10 +25,10 @@ export default function App() {
 
     try {
       const result = await summarizeText(text, contentType);
+      const record = saveToHistory(text, contentType, result.summary);
       setCurrentSummary(result.summary);
-      setActiveId(result.id);
-      const updated = await getHistory();
-      setHistory(updated.summaries);
+      setActiveId(record.id);
+      setHistory(getHistory());
     } catch (err) {
       setError(err.message);
     } finally {
@@ -35,20 +36,18 @@ export default function App() {
     }
   };
 
-  const handleSelect = async (id) => {
-    try {
-      const record = await getHistoryItem(id);
+  const handleSelect = (id) => {
+    const record = getHistoryItem(id);
+    if (record) {
       setCurrentSummary(record.summary);
       setActiveId(record.id);
       setError(null);
-    } catch {
-      setError('Failed to load summary.');
     }
   };
 
-  const handleDelete = async (id) => {
-    await deleteHistoryItem(id);
-    setHistory((prev) => prev.filter((s) => s.id !== id));
+  const handleDelete = (id) => {
+    deleteHistoryItem(id);
+    setHistory(getHistory());
     if (activeId === id) {
       setCurrentSummary(null);
       setActiveId(null);

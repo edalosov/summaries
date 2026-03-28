@@ -16,5 +16,8 @@ dist/
 .vscode/
 .idea/
 
+# Vercel
+.vercel
+
 # OS
 .DS_Store
