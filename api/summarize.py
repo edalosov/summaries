@@ -32,14 +32,14 @@ You MUST respond with valid JSON matching this exact schema, and nothing else:
       "context": "<2-3 sentences explaining why this quote matters for artists and what insight or value it offers>"
     }
   ],
-  "body": "<A thorough multi-paragraph summary with key quotes embedded inline. Use \\n\\n to separate paragraphs.>"
+  "body": "<A thorough, detailed multi-paragraph summary. Use \\n\\n to separate paragraphs. Do NOT include any quotes in this section.>"
 }
 
 Rules:
 1. CORE QUOTES: Select 5-7 of the most impactful, insightful, or actionable quotes from the transcript — the kind of quotes an artist would want to highlight, save, or share. These must be EXACT verbatim excerpts. The context should be 2-3 sentences explaining the significance of the quote for artists — what makes it valuable, what lesson or perspective it offers.
 2. VOICE: Write the body in the same voice and tone as the speakers in the transcript. The summary should read as if the speakers are directly conveying the information. Do NOT write as a third-person analyst.
-3. BODY QUOTES: In the body section, also embed quotes naturally using [QUOTE]exact words[/QUOTE] markers. Any trailing punctuation must go INSIDE the [/QUOTE] marker. Target approximately 10% of the body length in inline quotes.
-4. COMPLETENESS: The body must retain ALL essential information from the conversation. Err on the side of being too thorough rather than too brief.
+3. NO QUOTES IN BODY: Do NOT embed any quotes or [QUOTE] markers in the body section. The core_quotes section already contains the key quotes. The body should be pure summary text.
+4. COMPLETENESS: The body must retain ALL essential information from the conversation. Err on the side of being too thorough and detailed rather than too brief. A longer, comprehensive summary is always preferred — do not compress or shorten for brevity.
 5. Respond ONLY with the JSON object. No markdown fencing, no preamble, no explanation."""
 
 
