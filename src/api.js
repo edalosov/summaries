@@ -5,8 +5,11 @@ export async function summarizeText(text, contentType) {
     body: JSON.stringify({ text, content_type: contentType }),
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: 'Request failed' }));
-    throw new Error(err.error || 'Request failed');
+    if (res.status === 504) {
+      throw new Error('The request timed out. Try with a shorter text.');
+    }
+    const err = await res.json().catch(() => ({ error: `Request failed (${res.status})` }));
+    throw new Error(err.error || `Request failed (${res.status})`);
   }
   return res.json();
 }

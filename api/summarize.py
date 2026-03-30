@@ -85,7 +85,7 @@ Summarize the above text following the system instructions exactly."""
 
         response = client.messages.create(
             model="claude-sonnet-4-20250514",
-            max_tokens=4096,
+            max_tokens=8192 if is_artist_commons else 4096,
             temperature=0,
             system=system_prompt,
             messages=[{"role": "user", "content": user_message}],
