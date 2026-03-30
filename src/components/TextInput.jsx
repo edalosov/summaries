@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-const CONTENT_TYPES = [
+const TABS = [
   { value: 'general', label: 'General' },
+  { value: 'book_transcript', label: 'Book Transcript' },
   { value: 'article', label: 'Article' },
-  { value: 'book_excerpt', label: 'Book Excerpt' },
-  { value: 'research_paper', label: 'Research Paper' },
-  { value: 'interview', label: 'Interview / Transcript' },
+  { value: 'transcript', label: 'Transcript' },
+  { value: 'artist_commons', label: 'Artist Commons' },
 ];
 
 export default function TextInput({ onSubmit, isLoading }) {
@@ -21,32 +21,37 @@ export default function TextInput({ onSubmit, isLoading }) {
 
   return (
     <form className="text-input" onSubmit={handleSubmit}>
-      <div className="text-input-header">
-        <select
-          value={contentType}
-          onChange={(e) => setContentType(e.target.value)}
-          className="content-type-select"
-        >
-          {CONTENT_TYPES.map((t) => (
-            <option key={t.value} value={t.value}>{t.label}</option>
-          ))}
-        </select>
-        <span className="char-count">{text.length} characters</span>
+      <div className="content-tabs">
+        {TABS.map((tab) => (
+          <button
+            key={tab.value}
+            type="button"
+            className={`content-tab ${contentType === tab.value ? 'active' : ''}`}
+            onClick={() => setContentType(tab.value)}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Paste an article, book excerpt, or any text to summarize..."
+        placeholder={contentType === 'artist_commons'
+          ? 'Paste a voice call transcript here...'
+          : 'Paste an article, book excerpt, or any text to summarize...'}
         rows={10}
         className="text-input-area"
       />
-      <button
-        type="submit"
-        disabled={isLoading || text.trim().length < 50}
-        className="submit-btn"
-      >
-        {isLoading ? 'Summarizing...' : 'Summarize'}
-      </button>
+      <div className="text-input-footer">
+        <span className="char-count">{text.length} characters</span>
+        <button
+          type="submit"
+          disabled={isLoading || text.trim().length < 50}
+          className="submit-btn"
+        >
+          {isLoading ? 'Summarizing...' : 'Summarize'}
+        </button>
+      </div>
     </form>
   );
 }

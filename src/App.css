@@ -120,20 +120,42 @@
   margin-bottom: 1.5rem;
 }
 
-.text-input-header {
+/* Content Type Tabs */
+.content-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 0;
+}
+
+.content-tab {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #888;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.content-tab:hover {
+  color: #555;
+}
+
+.content-tab.active {
+  color: #6366f1;
+  border-bottom-color: #6366f1;
+}
+
+.text-input-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.content-type-select {
-  padding: 0.4rem 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  background: #fff;
-  color: #333;
+  margin-top: 0.75rem;
 }
 
 .char-count {
@@ -160,7 +182,6 @@
 }
 
 .submit-btn {
-  margin-top: 0.75rem;
   padding: 0.65rem 2rem;
   background: #6366f1;
   color: #fff;
@@ -308,6 +329,34 @@
   border-radius: 0 6px 6px 0;
   font-size: 0.95rem;
   line-height: 1.6;
+}
+
+/* Core Quotes (Artist Commons) */
+.core-quotes {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.core-quote-block {
+  border-left: 3px solid #6366f1;
+  padding: 0.75rem 1rem;
+  background: #f8f7ff;
+  border-radius: 0 8px 8px 0;
+}
+
+.core-quote-text {
+  font-style: italic;
+  font-size: 1rem;
+  color: #1a1a2e;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.core-quote-context {
+  font-size: 0.875rem;
+  color: #555;
+  line-height: 1.5;
 }
 
 /* Takeaways */

@@ -17,8 +17,10 @@ export default function SummaryOutput({ summary, isLoading }) {
     );
   }
 
+  const isArtistCommons = summary._type === 'artist_commons';
+
   const handleCopy = async () => {
-    const text = formatAsText(summary);
+    const text = isArtistCommons ? formatArtistCommons(summary) : formatAsText(summary);
     await navigator.clipboard.writeText(text);
   };
 
@@ -31,7 +33,22 @@ export default function SummaryOutput({ summary, isLoading }) {
         </button>
       </div>
 
+      {isArtistCommons && (
+        <section className="summary-section">
+          <h3>Core Quotes</h3>
+          <div className="core-quotes">
+            {summary.core_quotes.map((q, i) => (
+              <div key={i} className="core-quote-block">
+                <blockquote className="core-quote-text">"{q.quote}"</blockquote>
+                <p className="core-quote-context">{q.context}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className="summary-section">
+        {isArtistCommons && <h3>Detailed Summary</h3>}
         <div className="body-content">
           {summary.body.split('\n\n').map((para, i) => (
             <p key={i}>{renderWithQuotes(para)}</p>
@@ -39,22 +56,22 @@ export default function SummaryOutput({ summary, isLoading }) {
         </div>
       </section>
 
-      <section className="summary-section">
-        <h3>Takeaways</h3>
-        <ol className="takeaways">
-          {summary.takeaways.map((t, i) => (
-            <li key={i}>{t}</li>
-          ))}
-        </ol>
-      </section>
+      {!isArtistCommons && summary.takeaways && (
+        <section className="summary-section">
+          <h3>Takeaways</h3>
+          <ol className="takeaways">
+            {summary.takeaways.map((t, i) => (
+              <li key={i}>{t}</li>
+            ))}
+          </ol>
+        </section>
+      )}
     </div>
   );
 }
 
 function renderWithQuotes(text) {
   const parts = text.split(/\[QUOTE\]|\[\/QUOTE\]/);
-  // Odd-indexed parts are inside quote markers
-  // Even-indexed parts (regular text) get leading stray punctuation trimmed
   return parts.map((part, i) =>
     i % 2 === 1
       ? <span key={i} className="inline-quote">"{part}"</span>
@@ -72,5 +89,19 @@ function formatAsText(summary) {
   summary.takeaways.forEach((t, i) => {
     text += `${i + 1}. ${t}\n`;
   });
+  return text;
+}
+
+function formatArtistCommons(summary) {
+  let text = `# ${summary.title}\n\n`;
+  text += `## Core Quotes\n\n`;
+  summary.core_quotes.forEach((q, i) => {
+    text += `> "${q.quote}"\n\n${q.context}\n\n`;
+  });
+  text += `## Detailed Summary\n\n`;
+  const body = summary.body
+    .replace(/\[QUOTE\]/g, '"')
+    .replace(/\[\/QUOTE\]/g, '"');
+  text += `${body}\n`;
   return text;
 }
